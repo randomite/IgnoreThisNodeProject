@@ -27,36 +27,39 @@ app.use('/users', users);
 
 
 app.get('/', function(req, res) {res.render('index')});
-app.get('/searching', function(req, res){
- //console.log("test")
-    var val = req.query.search;
-    //var newVal = req.query.test;
-    //console.log("newVal: " + newVal);
-    console.log("val: " +val);
-        
-        var request = require('request');
 
-        var options = {
-            url: 'http://api.openweathermap.org/data/2.5/weather?q='+val+',uk',
-            headers: {
-                'User-Agent': 'request'
-            }
-        };
+app.post('/john', function(req, res) {
+    whateverSearch = req.body.whateverSearch;
+    console.log(whateverSearch);
+    //res.render('index', { title: 'MyApp', myIn: whateverSearch});
+    var bob;
 
-        function callback(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var info = JSON.parse(body);
-                //console.log(info.coord.lon + " Stars");
-                console.log(info.coord.lon);
-                res.send("Longitude for: " + val + " is: " + info.coord.lon);
-                //res.send("hello")
-            }
+    var request = require('request');
+
+    var options = {
+        url: 'https://api.github.com/repos/request/request',
+        headers: {
+            'User-Agent': 'request'
         }
+    };
 
-        request(options, callback);
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var info = JSON.parse(body);
+            console.log(info.stargazers_count + " Stars");
+            console.log(info.forks_count + " Forks");
+            bob = info.forks_count;
+            
+            res.render('index', { title: 'MyApp', myIn: whateverSearch, myIn2: bob});
+            console.log("bob" +bob);
+        }
+    }
 
+    request(options, callback);
 
- //res.send("WHEEE!!!");
+    
+    
+
 });
 
 

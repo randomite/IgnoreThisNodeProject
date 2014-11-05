@@ -4,19 +4,17 @@ block content
 
 	p Hello
 	br
-	//p Test
-	//input#test(type="search")
+	form(action="/john" method="post")
+		input( name="whateverSearch" placeholder="search" autofocus)
+		br
+		p One
+		br
+		input(name ="searchTwo")
+		br
+		p Two
+		br
+		button(type="submit")
 	br
-	p Search
-	input#search(type="search")
-	//button(onclick='myFunction()')
-	h2#results 
-	br 
-	br 
+	p Hello #{myIn}
 	br
-	br
-	br
-    
-
-	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
-	script(src="/javascripts/main.js") 
+	p Hi #{myIn2}
