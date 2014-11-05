@@ -26,6 +26,9 @@ app.use('/', routes);
 app.use('/users', users);
 
 
+
+//http://127.0.0.1:3000/
+
 app.get('/', function(req, res) {res.render('index')});
 
 app.post('/john', function(req, res) {
