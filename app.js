@@ -33,6 +33,7 @@ app.get('/', function(req, res) {res.render('index')});
 
 app.post('/john', function(req, res) {
     whateverSearch = req.body.whateverSearch;
+    var nextIn = req.body.searchTwo;
     console.log(whateverSearch);
     //res.render('index', { title: 'MyApp', myIn: whateverSearch});
     var bob;
@@ -51,7 +52,7 @@ app.post('/john', function(req, res) {
             var info = JSON.parse(body);
             console.log(info.stargazers_count + " Stars");
             console.log(info.forks_count + " Forks");
-            bob = info.forks_count;
+            bob = nextIn + " " +info.forks_count;
             
             res.render('index', { title: 'MyApp', myIn: whateverSearch, myIn2: bob});
             console.log("bob" +bob);
