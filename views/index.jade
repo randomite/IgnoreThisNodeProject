@@ -4,17 +4,17 @@ block content
 
 	p Hello
 	br
-	form(action="/john" method="post")
-		input( name="whateverSearch" placeholder="search" autofocus)
+	form(action="/foreX" method="post")
+		input( name="currencyCode" placeholder="Currency Code" autofocus)
 		br
 		p One
 		br
-		input(name ="searchTwo")
+		input(name ="userAmount" placeholder="Amount" autofocus)
 		br
 		p Two
 		br
 		button(type="submit") Submit
 	br
-	p Hello #{myIn}
+	p Amount = #{myIn}
 	br
-	p Hi #{myIn2}
+	p Conversion Rate = #{myIn2}
