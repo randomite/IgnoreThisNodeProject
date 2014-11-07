@@ -1,0 +1,20 @@
+extends layout
+
+block content
+
+	p Hello
+	br
+	form(action="/john" method="post")
+		input( name="whateverSearch" placeholder="search" autofocus)
+		br
+		p One
+		br
+		input(name ="searchTwo")
+		br
+		p Two
+		br
+		button(type="submit") Submit
+	br
+	p Hello #{myIn}
+	br
+	p Hi #{myIn2}
