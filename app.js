@@ -39,9 +39,12 @@ function buildHash(){
 
     var sourceString = ""; // shared secret + fields in correct format
     var hash="";
-    var sharedSecret="FCZvnD}2ikdBhZmrpaOSIya0+m2/Sj{Mpv@L+OOT";
-    var apikey="W869FJ62VVNYBVY73Q3621Jyljzif9DbVYRuY_6wNjyDMubq4";
-    var resourcePath="cd/ForExInquiry";
+    var sharedSecret="Lu5dYjfpbF0ugZfEnsQNR1vJ7qiSxZUAdfSMd/8-";
+    var apikey="U40OBBDQ5ZZ2MX2HWMR021wLqWBjDueyC5fe4N6_1gP5laWY0";
+    var resourcePath="amlofac/WatchListInquiry";
+    userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
+
+/*
     userRequest= "{"+
                     "\"SystemsTraceAuditNumber\": 451012,"+
                     "\"RetrievalReferenceNumber\": \"430015451012\","+
@@ -63,16 +66,21 @@ function buildHash(){
                             "}"+
                         "}"+
                     "}";
+*/
 
-    
+    //var timeStamp = (new Date).getTime();
 
-    var timeStamp = (new Date).getTime();
+    ///var date = new Date();
+    var timeStamp = Math.round((new Date).getTime()/1000);
+    //var timeStamp = String(Math.round(date.getTime() / 1000) + date.getTimezoneOffset() * 60);
 
-    sourceString = sharedSecret + timeStamp + resourcePath + userRequest;
+    sourceString = sharedSecret + timeStamp + resourcePath + "apikey=" + apikey + userRequest;
     
     var hash = CryptoJS.SHA256(sourceString);
 
     var xpayToken = "x:"+timeStamp+":"+hash;
+
+    //xpayToken="x:1416383155:d2393f9f2a4b35b658ead5de19e900813f5dd2e5aa406bdb2b3869d5b9dfa19e"
 
     //x:UNIX_UTC_Timestamp:SHA256_hash
 
@@ -104,11 +112,11 @@ app.post('/foreX', function(req, res) {
     //res.render('index', { title: 'MyApp', myIn: whateverSearch});
     var bob;
 
-    var xpayToken = "x:1416379596:434160d2d184e62e404e4335edb19b355d54b7143a47f1e2739e47bdd17a1313";
+    var xpayToken = "x:1416380932:ff5ac2c5cbb1ce31e6319bc1f5a4748323ca8ecc56eb48c1a916b522144ccb09";
     userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
 
 
-    //var xpayToken = buildHash();
+    var xpayToken = buildHash();
 
     console.log("xpayToken return: " + xpayToken);
 
@@ -144,7 +152,7 @@ app.post('/foreX', function(req, res) {
             console.log("response.statusCode =" + response.statusCode);
 
             console.log("ReferenceNumber " + info.ReferenceNumber);
-            console.log("OFACScore" + info.OFACScore);
+            console.log("OFACScore " + info.OFACScore);
 
             /*
             console.log(info.stargazers_count + " Stars");
