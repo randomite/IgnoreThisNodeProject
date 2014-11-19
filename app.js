@@ -151,7 +151,7 @@ app.post('/foreX', function(req, res) {
             
             bob = userAmt + " " +info.forks_count;
             */
-            
+
             //res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore});
             
             
@@ -189,7 +189,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
+// production error handlers
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
