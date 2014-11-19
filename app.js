@@ -103,23 +103,25 @@ app.post('/foreX', function(req, res) {
     //res.render('index', { title: 'MyApp', myIn: whateverSearch});
     var bob;
 
-    //var xpayToken = "x:1415323592:141e97983c7709fe85208a09cc06cdfbfea43543ea4ecfb0d55aecb456c92c20";
+    var xpayToken = "x:1416379596:434160d2d184e62e404e4335edb19b355d54b7143a47f1e2739e47bdd17a1313";
+    userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
 
-    var xpayToken = buildHash();
+
+    //var xpayToken = buildHash();
 
     console.log("xpayToken return: " + xpayToken);
 
-    var request = require('request');
+    var nodeReq = require('request');
 
     //process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
     var options = {
-        url: 'https://qa.api.visa.com/da/cd/ForExInquiry?apikey=W869FJ62VVNYBVY73Q3621Jyljzif9DbVYRuY_6wNjyDMubq4',
+        url: 'https://sandbox.api.visa.com/rft/amlofac/WatchListInquiry?apikey=U40OBBDQ5ZZ2MX2HWMR021wLqWBjDueyC5fe4N6_1gP5laWY0',
         rejectUnauthorized: false,
         headers: {
             'x-pay-token' : xpayToken,
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json'
+            'Content-Type' : 'application/json; charset=UTF-8',
+            'Accept' : 'application/json; charset=UTF-8'
         },
         method: 'POST',
         body: userRequest
@@ -128,8 +130,6 @@ app.post('/foreX', function(req, res) {
     console.log("options JSON" + options);
 
     function callback(error, response, body) {
-
-
 
         if (error) {
             return console.log("error: " + error);
@@ -142,22 +142,23 @@ app.post('/foreX', function(req, res) {
             console.log("callback function executed...");
             console.log("response.statusCode =" + response.statusCode);
 
-            console.log("ConversionRate: " + info.ConversionRate);
-            console.log("DestinationAmount" + info.DestinationAmount);
+            console.log("ReferenceNumber " + info.ReferenceNumber);
+            console.log("OFACScore" + info.OFACScore);
 
             /*
             console.log(info.stargazers_count + " Stars");
             console.log(info.forks_count + " Forks");
             
             bob = userAmt + " " +info.forks_count;
-            
-            res.render('index', { title: 'MyApp', myIn: curCode, myIn2: bob});
-            console.log("bob" +bob);
             */
+            
+            //res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore});
+            
+            
         }
     }
 
-    request(options, callback);
+    nodeReq(options, callback);
 
 
 
