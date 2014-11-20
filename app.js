@@ -33,40 +33,16 @@ sslRootCAs.inject();
 //ends here
 
 
-var userRequest;
+//var userRequest;
 
-function buildHash(){
+function buildHash(inRequest, inResourcePath){
 
     var sourceString = ""; // shared secret + fields in correct format
     var hash="";
     var sharedSecret="Lu5dYjfpbF0ugZfEnsQNR1vJ7qiSxZUAdfSMd/8-";
     var apikey="U40OBBDQ5ZZ2MX2HWMR021wLqWBjDueyC5fe4N6_1gP5laWY0";
-    var resourcePath="amlofac/WatchListInquiry";
-    userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
-
-/*
-    userRequest= "{"+
-                    "\"SystemsTraceAuditNumber\": 451012,"+
-                    "\"RetrievalReferenceNumber\": \"430015451012\","+
-                    "\"AcquiringBin\": 409999,"+
-                    "\"AcquirerCountryCode\": \"101\","+
-                    "\"DestinationCurrencyCode\": \"974\","+
-                    "\"SourceCurrencyCode\": \"124\","+
-                    "\"SourceAmount\": \"251.75\","+
-                    "\"CardAcceptor\": {"+
-                        "\"Name\": \"Mr Smith\","+
-                        "\"TerminalId\": \"12332\","+
-                        "\"IdCode\": \"1014\","+
-                        "\"Address\": {"+
-                            "\"City\": \"San Francisco\","+
-                            "\"State\": \"CA\","+
-                            "\"County\": \"075\","+
-                            "\"Country\": \"USA\","+
-                            "\"ZipCode\": \"56913\""+
-                            "}"+
-                        "}"+
-                    "}";
-*/
+    //var resourcePath="amlofac/WatchListInquiry";
+    //userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
 
     //var timeStamp = (new Date).getTime();
 
@@ -74,8 +50,10 @@ function buildHash(){
     var timeStamp = Math.round((new Date).getTime()/1000);
     //var timeStamp = String(Math.round(date.getTime() / 1000) + date.getTimezoneOffset() * 60);
 
-    sourceString = sharedSecret + timeStamp + resourcePath + "apikey=" + apikey + userRequest;
-    
+    //sourceString = sharedSecret + timeStamp + resourcePath + "apikey=" + apikey + userRequest;
+    //sourceString = sharedSecret + timeStamp + resourcePath + "apikey=" + apikey + inRequest;
+    sourceString = sharedSecret + timeStamp + inResourcePath + "apikey=" + apikey + inRequest;
+
     var hash = CryptoJS.SHA256(sourceString);
 
     var xpayToken = "x:"+timeStamp+":"+hash;
@@ -104,25 +82,118 @@ function buildHash(){
 
 app.get('/', function(req, res) {res.render('index')});
 
+
 app.post('/foreX', function(req, res) {
-    var curCode = req.body.currencyCode;
-    var userAmt = req.body.userAmount;
-    console.log("curCode: " + curCode);
-    console.log("userAmt: " + userAmt);
+    var fromCurrencyCode = req.body.fromCurrencyCode;
+    var toCurrencyCode = req.body.toCurrencyCode;
+    var userAmount = req.body.userAmount;
+    console.log("fromCurrencyCode: " + fromCurrencyCode);
+    console.log("toCurrencyCode: " + toCurrencyCode);
+    console.log("userAmount: " + userAmount);
     //res.render('index', { title: 'MyApp', myIn: whateverSearch});
     var bob;
 
-    var xpayToken = "x:1416380932:ff5ac2c5cbb1ce31e6319bc1f5a4748323ca8ecc56eb48c1a916b522144ccb09";
-    userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
+    //var xpayToken = "x:1416380932:ff5ac2c5cbb1ce31e6319bc1f5a4748323ca8ecc56eb48c1a916b522144ccb09";
+    //userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
+    //var userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"" + cardHolderCountryCode + "\" } }";
 
+    userRequest= "{"+"\"SystemsTraceAuditNumber\": 451012,"+
+                    "\"RetrievalReferenceNumber\": \"430015451012\","+
+                    "\"AcquiringBin\": 409999,"+
+                    "\"AcquirerCountryCode\": \"101\","+
+                    "\"DestinationCurrencyCode\": \""+toCurrencyCode+"\","+
+                    "\"SourceCurrencyCode\": \""+fromCurrencyCode+"\","+
+                    "\"SourceAmount\": \""+userAmount+"\","+
+                    "\"CardAcceptor\": {"+
+                        "\"Name\": \"Mr Smith\","+
+                        "\"TerminalId\": \"12332\","+
+                        "\"IdCode\": \"1014\","+
+                        "\"Address\": {"+
+                            "\"City\": \"San Francisco\","+
+                            "\"State\": \"CA\","+
+                            "\"County\": \"075\","+
+                            "\"Country\": \"USA\","+
+                            "\"ZipCode\": \"56913\""+
+                            "}"+
+                        "}"+
+                    "}";
 
-    var xpayToken = buildHash();
+    var resourcePath="cd/ForExInquiry";
+    //var xpayToken = buildHash();
+    var xpayToken = buildHash(userRequest,resourcePath);
+
 
     console.log("xpayToken return: " + xpayToken);
 
     var nodeReq = require('request');
 
     //process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
+    var options = {
+        url: 'https://sandbox.api.visa.com/da/cd/ForExInquiry?apikey=U40OBBDQ5ZZ2MX2HWMR021wLqWBjDueyC5fe4N6_1gP5laWY0',
+        rejectUnauthorized: false,
+        headers: {
+            'x-pay-token' : xpayToken,
+            'Content-Type' : 'application/json; charset=UTF-8',
+            'Accept' : 'application/json; charset=UTF-8'
+        },
+        method: 'POST',
+        body: userRequest
+    };
+
+    console.log("options JSON" + options);
+
+    function callback(error, response, body) {
+
+        if (error) {
+            return console.log("error: " + error);
+        };
+
+        if (!error && response.statusCode == 200) {
+
+            var info = JSON.parse(body);
+
+            console.log("callback function executed...");
+            console.log("response.statusCode =" + response.statusCode);
+
+            console.log("ConversionRate " + info.ConversionRate);
+            console.log("DestinationAmount " + info.DestinationAmount);
+
+            res.render('index', { title: 'MyApp', myFx: info.ConversionRate, myFx2: info.DestinationAmount});            
+        }
+    }
+
+    nodeReq(options, callback);
+});
+
+
+app.post('/wlM', function(req, res) {
+    var curCode = req.body.currencyCode;
+    var userAmt = req.body.userAmount;
+    var cardHolderCountryCode = req.body.cardHolderCountryCode;
+    var resourcePath="amlofac/WatchListInquiry";
+    var bob;
+
+    //var xpayToken = "x:1416380932:ff5ac2c5cbb1ce31e6319bc1f5a4748323ca8ecc56eb48c1a916b522144ccb09";
+    //userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"USA\" } }";
+    //var userRequest = "{ \"ReferenceNumber\": 103809005128, \"AcquiringBin\": 409999, \"AcquirerCountryCode\": 101, \"Name\": \"Jack Smith\", \"Address\": { \"City\": \"Boulder\", \"CountryCode\": \"" + cardHolderCountryCode + "\" } }";
+    var userRequest = "{ \"ReferenceNumber\": 103809005128,"+
+                        " \"AcquiringBin\": 409999,"+
+                        " \"AcquirerCountryCode\": 101,"+
+                        " \"Name\": \"Jack Smith\","+
+                        " \"Address\": {"+
+                            " \"City\": \"Boulder\","+
+                            " \"CountryCode\": \""+
+                            cardHolderCountryCode+
+                        "\" }"+
+                        " }";
+
+    var xpayToken = buildHash(userRequest,resourcePath);
+
+    console.log("cardHolderCountryCode: " + cardHolderCountryCode);
+    console.log("xpayToken return: " + xpayToken);
+
+    var nodeReq = require('request');
 
     var options = {
         url: 'https://sandbox.api.visa.com/rft/amlofac/WatchListInquiry?apikey=U40OBBDQ5ZZ2MX2HWMR021wLqWBjDueyC5fe4N6_1gP5laWY0',
@@ -153,27 +224,13 @@ app.post('/foreX', function(req, res) {
 
             console.log("ReferenceNumber " + info.ReferenceNumber);
             console.log("OFACScore " + info.OFACScore);
+            console.log("Status " + info.Status);
 
-            /*
-            console.log(info.stargazers_count + " Stars");
-            console.log(info.forks_count + " Forks");
-            
-            bob = userAmt + " " +info.forks_count;
-            */
-
-            //res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore});
-            
-            
+            res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore, myIn3: info.Status});            
         }
     }
 
     nodeReq(options, callback);
-
-
-
-    
-    
-
 });
 
 

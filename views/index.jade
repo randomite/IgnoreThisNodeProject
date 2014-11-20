@@ -2,19 +2,40 @@ extends layout
 
 block content
 
-	p Hello
+	H2 Foreign Exchange Rates
 	br
 	form(action="/foreX" method="post")
-		input( name="currencyCode" placeholder="Currency Code" autofocus)
+		input( name="fromCurrencyCode" placeholder="From Currency Code 124" autofocus)
+		input( name="toCurrencyCode" placeholder="To Currency Code 974" autofocus)
 		br
-		p One
 		br
 		input(name ="userAmount" placeholder="Amount" autofocus)
 		br
-		p Two
+		br
+		button(type="submit") Submit
+	br
+	br
+	p ConversionRate = #{myFx}
+	br
+	p DestinationAmount = #{myFx2}
+	br
+
+	p
+	H2 Watch List Check
+	br
+	form(action="/wlM" method="post")
+		input( name="name" placeholder="Card Holder Name" autofocus)
+		br
+		p Address
+		input(name ="cardHolderCity" placeholder="City" autofocus)
+		p
+		input(name ="cardHolderCountryCode" placeholder="Country" autofocus)
+		p
 		br
 		button(type="submit") Submit
 	br
 	p ReferenceNumber = #{myIn}
 	br
 	p OFACScore = #{myIn2}
+	br
+	p Status = #{myIn3}
