@@ -1,0 +1,22 @@
+extends layout
+
+block content
+
+	H2 Watch List Check
+	br
+	form(action="/wlM" method="post")
+		input( name="name" placeholder="Card Holder Name" autofocus)
+		br
+		p Address
+		input(name ="cardHolderCity" placeholder="City" autofocus)
+		p
+		input(name ="cardHolderCountryCode" placeholder="Country" autofocus)
+		p
+		br
+		button(type="submit") Submit
+	br
+	p ReferenceNumber = #{myIn}
+	br
+	p OFACScore = #{myIn2}
+	br
+	p Status = #{myIn3}

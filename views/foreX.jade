@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+	H2 Foreign Exchange Rates
+	br
+	form(action="/foreX" method="post")
+		input( name="fromCurrencyCode" placeholder="From Currency Code 124" autofocus)
+		input( name="toCurrencyCode" placeholder="To Currency Code 974" autofocus)
+		br
+		br
+		input(name ="userAmount" placeholder="Amount" autofocus)
+		br
+		br
+		button(type="submit") Submit
+	br
+	br
+	p ConversionRate = #{myFx}
+	br
+	p DestinationAmount = #{myFx2}
+	br
