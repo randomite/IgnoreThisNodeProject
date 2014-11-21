@@ -159,7 +159,7 @@ app.post('/foreX', function(req, res) {
             console.log("ConversionRate " + info.ConversionRate);
             console.log("DestinationAmount " + info.DestinationAmount);
 
-            res.render('index', { title: 'MyApp', myFx: info.ConversionRate, myFx2: info.DestinationAmount});            
+            res.render('foreX', { title: 'MyApp', myFx: info.ConversionRate, myFx2: info.DestinationAmount});            
         }
     }
 
@@ -226,7 +226,8 @@ app.post('/wlM', function(req, res) {
             console.log("OFACScore " + info.OFACScore);
             console.log("Status " + info.Status);
 
-            res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore, myIn3: info.Status});            
+            //res.render('index', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore, myIn3: info.Status});            
+            res.render('wlM', { title: 'MyApp', myIn: info.ReferenceNumber, myIn2: info.OFACScore, myIn3: info.Status});            
         }
     }
 
