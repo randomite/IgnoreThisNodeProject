@@ -140,7 +140,7 @@ app.post('/foreX', function(req, res) {
     };
 
     console.log("options JSON " + options);
-    console.log("userRequest= " + userRequest);
+    console.log("userRequest = " + userRequest);
 
     function callback(error, response, body) {
 
