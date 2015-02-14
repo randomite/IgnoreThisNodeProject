@@ -152,7 +152,7 @@ app.post('/foreX', function(req, res) {
 
             var info = JSON.parse(body);
 
-            console.log("callback function executed...");response
+            console.log("callback function executed...");
             console.log("response.statusCode =" + response.statusCode);
 
             console.log("ConversionRate " + info.ConversionRate);
