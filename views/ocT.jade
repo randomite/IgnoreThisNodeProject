@@ -1,0 +1,30 @@
+extends layout
+
+block content
+
+	H2 Send Money
+	br
+	form(action="/ocT" method="post")
+		input( name="senderAccountNumber" placeholder="senderAccountNumber" autofocus)
+		br
+		input( name="recepientCardPrimaryAccountNumber" placeholder="recepientCardPrimaryAccountNumber" autofocus)
+		br
+		input( name="cardAcceptorCountryCode" placeholder="cardAcceptorCountryCode" autofocus)
+		br
+		input( name="transactionCurrency" placeholder="transactionCurrency" autofocus)
+		br
+		input( name="amount" placeholder="amount" autofocus)
+		br
+		input( name="cardAcceptorName" placeholder="cardAcceptorName" autofocus)
+		br
+		input(name ="userAmount" placeholder="Amount" autofocus)
+		br
+		button(type="submit") Submit
+	br
+	br
+	p TransactionIdentifier = #{myTransactionIdentifier}
+	br
+	p ActionCode = #{myActionCode}
+	br
+	p ApprovalCode = #{myapprovalCode}
+	br

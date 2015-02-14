@@ -16,4 +16,9 @@ router.get('/foreX', function(req, res) {
   res.render('foreX', { title: 'Express' });
 });
 
+/* GET ocT page. */
+router.get('/ocT', function(req, res) {
+  res.render('ocT', { title: 'Express' });
+});
+
 module.exports = router;

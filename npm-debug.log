@@ -15,7 +15,7 @@
 10 verbose stack     at maybeClose (child_process.js:756:16)
 10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:823:5)
 11 verbose pkgid passProj@0.0.0
-12 verbose cwd /Users/rsardal/Desktop/apps/NodeProject
+12 verbose cwd /Users/rsardal/Desktop/apps/USETHISONEActualNodeProject*****
 13 error Darwin 13.2.0
 14 error argv "node" "/usr/local/bin/npm" "start"
 15 error node v0.10.33
