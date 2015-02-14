@@ -132,8 +132,8 @@ app.post('/foreX', function(req, res) {
         rejectUnauthorized: false,
         headers: {
             'x-pay-token' : xpayToken,
-            'Content-Type' : 'application/vnd.visa.CommonData.v1+json',
-            'Accept' : 'application/json; charset=UTF-8'
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/vnd.visa.CommonData.v1+json'
         },
         method: 'POST',
         body: userRequest
